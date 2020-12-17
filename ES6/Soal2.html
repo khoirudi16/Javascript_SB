@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Soal 2</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <script>
+        const newFunction = (firstName, lastName) => {
+            return {
+                firstName: firstName,
+                lastName: lastName,
+                fullName: function () {
+                    console.log(`${firstName} ${lastName}`)
+                    return
+                }
+            }
+        }
+
+        //Driver Code 
+        newFunction("William", "Imoh").fullName() 
+    </script>
+</body>
+
+</html>
