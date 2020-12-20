@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vue Quiz | Sanbercode</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="myApp">
+
+
+        <div v-if="showBtnAdd">
+            <input type="text" v-model="name" v-on:keyup.enter="addUser" placeholder="Enter..." autofocus>
+            <button v-on:click="addUser">add</button>
+        </div>
+        <div v-else>
+            <input type="hidden" v-model="rowIndex">
+            <input type="text" v-model="name" v-on:keyup.enter="updateUser" autofocus>
+            <button v-on:click="updateUser">update</button>
+        </div>
+
+
+        <br><br>
+
+        <ul>
+            <li v-for="(item, index) in users"> {{ item.name}} <button
+                    v-on:click="editUser(index, item.name)">edit</button>
+                |
+                <button v-on:click="deleteUser(index, item.name)">delete</button>
+            </li>
+        </ul>
+
+    </div>
+</body>
+
+<script src="vue.js"></script>
+<script>
+    var myApp = new Vue({
+        el: '#myApp',
+        data: {
+            showBtnAdd: true,
+            rowIndex: '',
+            name: '',
+            users: [
+                { 'name': 'Muhammad Iqbal Mubarok', },
+                { 'name': 'Ruby Purwanti', },
+                { 'name': 'Faqih Muhammad', }
+            ]
+        },
+        methods: {
+            addUser: function () {
+                let objName = { 'name': this.name };
+                this.users.push(objName);
+                this.name = '';
+            },
+            editUser: function (row, value) {
+                this.rowIndex = row;
+                this.name = value;
+                this.showBtnAdd = false;
+            },
+            updateUser: function () {
+                debugger;
+                this.users[this.rowIndex].name = this.name;
+
+                this.rowIndex = '';
+                this.name = '';
+                this.showBtnAdd = true;
+            },
+            deleteUser: function (row, value) {
+                let conf = confirm("Are you sure delete : " + value);
+                if (conf) {
+                    this.users.splice(row, 1);
+                } else {
+                    alert('delete has been canceled')
+                }
+            }
+        }
+    });
+</script>
+
+</html>
