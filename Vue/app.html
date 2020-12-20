@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vue | Sanbercode</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="myApp">
+        <div v-for="(item, index) in listComment">
+            <button v-on:click="vote('up', index)"> + </button>
+            <p>{{ item.commentTitle }} || {{item.commentDate}} || Scores :
+                {{item.commentScores}}</p>
+            <p>{{item.isUpClick}} dan {{item.isDownClick}}</p>
+            <button v-on:click="vote('down', index)"> - </button>
+            <p>
+                <hr>
+            </p>
+        </div>
+
+        <br>
+        <p><strong>Comments</strong></p>
+        <textarea rows="2" placeholder="write your comments here... and enter" v-model="commentMsg"
+            v-on:keyup.enter="submitComment"></textarea>
+
+    </div>
+</body>
+
+<script src="vue.js"></script>
+<script>
+    var myApp = new Vue({
+        el: '#myApp',
+        data: {
+            commentMsg: '',
+            listComment: []
+        },
+        methods: {
+            //param : catch action 'up' or 'down'
+            //row : row array ke - n (particular row)
+            vote: function (action, row) {
+                debugger;
+                //get current score based on row data/array
+                const currScore = this.listComment[row].commentScores;
+                if (action == 'up') {
+                    //call function voteUp when action is equals 'up'
+                    this.voteUp(currScore, row);
+                } else {
+                    this.voteDown(currScore, row);
+                }
+            },
+            voteUp: function (currScore, row) {
+                if (currScore == 1) {
+                    this.listComment[row].commentScores = currScore - 1;
+                }
+                else {
+                    this.listComment[row].commentScores = 1;
+                }
+            },
+            voteDown: function (currScore, row) {
+                if (currScore == -1) {
+                    this.listComment[row].commentScores = currScore + 1;
+                } else {
+                    this.listComment[row].commentScores = -1;
+                }
+            },
+            submitComment: function () {
+
+                //get current date and display by date with time
+                let currentDate = new Date();
+                let datetime = currentDate.toLocaleDateString() + ' - ' + currentDate.toLocaleTimeString();
+
+                //object temporary
+                let dataComment = {
+                    commentTitle: this.commentMsg,
+                    commentDate: datetime,
+                    commentScores: 0
+                };
+
+                //push object to array
+                this.listComment.push(dataComment);
+                //clear value comment in textarea
+                this.commentMsg = '';
+            }
+        }
+    });
+</script>
+
+</html>
